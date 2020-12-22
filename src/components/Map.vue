@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Accompagnement de personnes à mobilité réduite dans les gares</h1>
     <div>
       <span v-if="loading">Loading...</span>
       <br />
@@ -65,12 +66,12 @@ export default {
       }
       return (feature, layer) => {
         layer.bindTooltip(
-          "<div>total:" +
-            feature.properties.total +
-            "</div><div>nom: " +
+          "<div>Ville: " +
             feature.properties.name +
+            "</div><div>Total: " +
+            feature.properties.total +
             "</div>",
-          { permanent: false, sticky: true }
+          { permanent: true, sticky: true }
         );
       };
     },
