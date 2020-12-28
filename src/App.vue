@@ -15,5 +15,6 @@ export default {
     Navbar,
     Table,
   },
+ 
 };
 </script>

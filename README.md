@@ -1,4 +1,10 @@
 # project
+# ajouter la dépendance de boostrap
+# ajouter la dépendance de jw-vue-pagination
+```
+npm i jw-vue-pagination
+
+```
 
 ## Project setup
 ```
