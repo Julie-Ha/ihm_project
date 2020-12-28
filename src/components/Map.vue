@@ -1,6 +1,16 @@
 <template>
   <div>
-    <h1>Accompagnement de personnes à mobilité réduite dans les gares</h1>
+    <h1 class="text-muted">
+      Nombre total d'aides aux personnes à mobilité réduite dans les gares
+    </h1>
+    <div>
+      <select name="year" @change="loadMap" v-model="selectedYear">
+        <option v-for="year in years" :key="year.name">{{ year.name }}</option>
+      </select>
+      <select name="month" @change="loadMap" v-model="selectedMonth">
+        <option v-for="month in months" :key="month">{{ month }}</option>
+      </select>
+    </div>
     <div>
       <span v-if="loading">Loading...</span>
       <br />
@@ -30,6 +40,23 @@ export default {
   },
   data() {
     return {
+      years: [],
+      months: [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+      ],
+      selectedYear: "2020",
+      selectedMonth: "01",
       loading: false,
       show: true,
       enableTooltip: true,
@@ -41,6 +68,54 @@ export default {
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     };
+  },
+  methods: {
+    async loadMap() {
+      this.loading = true;
+      let gares = [];
+      await axios
+        .get(
+          "https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q=" +
+            this.selectedYear +
+            "-" +
+            this.selectedMonth +
+            "&sort=total&rows=10"
+        )
+        .then((response) => {
+          gares = response.data.records;
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
+
+      let json = [];
+      gares.forEach(async (gare) => {
+        let name = gare.fields.gare.split(" ")[0];
+        const response = await fetch(
+          "https://api-adresse.data.gouv.fr/search/?q=" + name
+        );
+        let j = await response.json();
+        j.features[0].properties.total = gare.fields.total;
+
+        let found = false;
+        json.forEach(async (js) => {
+          if (j.features[0].properties.city == js.properties.city) {
+            js.properties.total =
+              parseInt(js.properties.total) +
+              parseInt(j.features[0].properties.total);
+            found = true;
+          }
+        });
+
+        if (!found) {
+          json.push(j.features[0]);
+        }
+      });
+      // console.log(json);
+
+      this.geojson = json;
+      this.loading = false;
+    },
   },
   computed: {
     options() {
@@ -77,45 +152,18 @@ export default {
     },
   },
   async created() {
-    this.loading = true;
-
-    let gares = [];
     await axios
       .get(
-        "https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q=2020-01&sort=total&rows=10"
+        "https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q=&sort=datemensuel&facet=datemensuel"
       )
       .then((response) => {
-        gares = response.data.records;
+        this.years = response.data.facet_groups[0].facets;
       })
       .catch((e) => {
         this.errors.push(e);
       });
 
-    let json = [];
-    gares.forEach(async (gare) => {
-      let name = gare.fields.gare.split(" ")[0];
-      const response = await fetch(
-        "https://api-adresse.data.gouv.fr/search/?q=" + name
-      );
-      let j = await response.json();
-      j.features[0].properties.total = gare.fields.total;
-
-      let found = false;
-      json.forEach(async (js) => {
-        if (j.features[0].properties.city == js.properties.city) {
-          js.properties.total = parseInt(js.properties.total)+parseInt(j.features[0].properties.total);
-          found = true;
-        }
-      });
-
-      if (!found) {
-        json.push(j.features[0]);
-      }
-    });
-    console.log(json);
-
-    this.geojson = json;
-    this.loading = false;
+    this.loadMap();
   },
 };
 </script>
