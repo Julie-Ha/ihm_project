@@ -1,13 +1,11 @@
 <template>
-  <div class="graph">
-    
+  <div class="home">
+    Hello
   </div>
 </template>
 
-
 <script>
-
 export default {
-  name: 'Graph',
+  name: 'Home',
 }
 </script>

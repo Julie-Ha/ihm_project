@@ -1,6 +1,7 @@
 # project
 # ajouter la dépendance de boostrap
 # ajouter la dépendance de jw-vue-pagination
+# ajouter la dépendance de axios
 ```
 npm i jw-vue-pagination
 

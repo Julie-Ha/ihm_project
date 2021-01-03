@@ -1,133 +1,70 @@
 <template>
    <div class="table">
+ 
       <b-container class="bv-example-row" style="padding:10px">
+      <b-container>
+                  <h3 class="text-center">Representation de</h3>
+        </b-container>
          <b-row style="padding:10px">
-            <b-col>
-                <b-list-group-item class="d-flex justify-content-between align-items-center">
-                     Filtrer en sélectionnant juste l'année
-                    <b-icon icon="plus-circle-fill" scale="2" variant="info" v-on:click="seen1 = !seen1" class="control"></b-icon>
-                </b-list-group-item>
-                <div v-if="seen1" id="hide">
-                <b-container>
-                  <div class="login-box">        
-                    <form style="padding:20px"> 
-                    <div class="form-row">
-                    
-                        <div class="form-group col-md-6">
-                          <select v-model="selectedAn" class="selectpicker form-control" >
-                                <option disabled value="" required >Veuillez sélectionner une année</option>
-                                <option>2020</option>
-                                <option>2019</option>
-                                <option>2018</option>
-                          </select>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                          <a @click="filtreDate()">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            rechercher
-                          </a>
-                        </div>
-
-                      </div>
-                    </form>
-                  </div>
-                 
-                  </b-container>
-                </div>
+            <b-col >
+               <b-form-group id="input-group-2" >
+                   <select v-model="selectedAn" class="selectpicker form-control" >
+                                       <option disabled value="">Année</option>
+                                       <option v-for="annne in years" :key="annne">{{ annne }}</option>
+                  </select>
+               </b-form-group>
             </b-col>
-            <b-col>
-           
-               <b-list-group-item class="d-flex justify-content-between align-items-center">
-                    Filtrer en sélectionnant le  mois et l'année
-                    <b-icon icon="plus-circle-fill" scale="2" variant="info" v-on:click="seen = !seen" class="control"></b-icon>
-                </b-list-group-item>
-              <div class="row">
-              <b-container>
-                <div v-if="seen" id="hide"  class="login-box">
-                <form style="padding:20px"> 
-                  <div class="form-row">
-
-                    <div class="col-md-6 ">
-                      <div class="form-group">
-                        <select v-model="selected" class="selectpicker form-control" >
-                          <option disabled value="">Veuillez sélectionner une année</option>
-                          <option>2020</option>
-                          <option>2019</option>
-                          <option>2018</option>
-                        </select>
-                      </div>
-                    </div>
-                   <div class="col-md-6">
-                   <div class="form-group">
-                      <select v-model="selectedM" class="selectpicker form-control">
-                        <option disabled value="">Veuillez sélectionner un mois</option>
-                        <option value="01">Jan.</option>
-                        <option value="02">Fev.</option>
-                        <option value="03">Mars</option>
-                        <option value="04">Avr.</option>
-                        <option value="05">Mai</option>
-                        <option value="06">Juin</option>
-                        <option value="07">Juill.</option>
-                        <option value="08">Août</option>
-                        <option value="09">Sept.</option>
-                        <option value="10">Oct.</option>
-                        <option value="11">Nov.</option>
-                        <option value="12">Déc.</option>
-                      </select>
-                    </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                          <a @click="filtreDateMonth()">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            rechercher
-                          </a>
-                        </div>
-                    
-                </div>
-                </form>
-                </div>
-              </b-container>
-              </div>
+            <b-col cols="5">
+               <b-form-group >
+               
+                  <b-button type="submit" variant="primary" @click="filtreDate()" class="btnVal">rechercher</b-button>
+               </b-form-group>
             </b-col>
          </b-row>
+         <b-row style="padding:10px">
+            <b-col >
+               
+               <b-list-group-item class="d-flex justify-content-between align-items-center">
+                  Avoir plus de Filtre <router-link to="/TableFiltre" class="p-2"><b-icon icon="plus-circle-fill" scale="2" variant="info" class="control"></b-icon></router-link>
+                  
+               </b-list-group-item>
+            </b-col>
+      
+         </b-row>
+       
       </b-container>
-      <b-container>
-         <div class="row">
-            <b-container>
-               <h3 class="text-center">{{titre}}</h3>
-            </b-container>
-            <div class="col-12 ">
-               <div class="table-responsive">
-                  <table class="content-table table tablesorter">
-                     <thead>
-                        <tr class="text-center" >
-                           <th>Nom Gare</th>
-                           <th>Assistance totale fournie</th>
-                           <th>Période</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr v-for=" (gars,index) in pageOfItems " :key="index" class="active-row text-center" >
-                           <td >{{ gars.fields.gare }}</td>
-                           <td >{{ gars.fields.total }}</td>
-                           <td >{{ gars.fields.datemensuel | date  }}</td>
-                        </tr>
-                     </tbody>
-                  </table>
-                  <div  class="pagination">
-                     <jw-pagination :items="listGar" @changePage="onChangePage" ></jw-pagination>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </b-container>
+      
+  
+
+      <div v-if="ListesGares" >
+       <b-overlay :show="show"  spinner-variant="success"
+      spinner-type="grow"
+      spinner-small
+      rounded="lg"
+      >
+         <b-container>
+            <h3 class="text-center">Les 50 Gares qui ont fourni le plus d'aide et le nombre de voyageurs qu'ils ont reçus au cours de l'année {{title}}</h3>
+
+         <b-table
+            :items="pageOfItems"
+            :fields="fields"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            sort-icon-left
+            responsive="sm"
+    ></b-table>
+    <div  class="pagination">
+                        <jw-pagination :items="ListesGares"  @changePage="onChangePage" ></jw-pagination>
+                     </div>
+         </b-container>
+      </b-overlay> 
+      </div>
+      <div v-else>
+         <b-container>
+            <h3 class="text-center">No Data found.</h3>
+         </b-container>
+      </div>
+      
    </div>
 </template>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
@@ -135,58 +72,92 @@
 <script>
 
 import { mapState } from 'vuex'
+import { BarLoader } from '@saeris/vue-spinners'
+import axios from 'axios'
+
+
 
 
 export default {
   name: 'Table',
   data(){
         return {
-           selected: '',
-           selectedM:'',
            selectedAn:'',
-           dataAll:'',
-           isBusy: false,
-            pageOfItems: [],
-            seen: false,
-          seen1: false,
+           show: false,
+           ListesGares: [],
+           pageOfItems: [],
+           title:'',
+           years:["2019","2018","2017"],
+           sortBy: 'Aide',
+          sortDesc: false,
+        fields: [
+          { key: 'gare', sortable: true },
+          { key: 'accompagnement', sortable: true },
+          { key: 'total_voyageur', sortable: true },
+        ],
 
         }
    
   },
-   mounted () {
-    this.$store.dispatch('Liste')
+  async created() {
+      
   },
-  computed: mapState([
-    'listGar',
-    'titre'
-  ]),
-  
+   
   methods: {
     async  filtreDate(){
-      
+        let tav=[];
+        
         if (this.selectedAn === '') {
-                this.error = 'Please enter a word.'
-                  this.wordData = ''
+                this.error = 'Veuillez remplir tous les champs.'
+                  this.selectedAn = ''
                   return false
-            }
-       this.$store.dispatch('ListeAnne',this.selectedAn)
+          }
+          this.title=this.selectedAn
+            this.show=true;
+         await axios
+        .get('https://data.sncf.com/api/records/1.0/analyze/?dataset=accompagnement-pmr-gares&rows=10&x=gare&y.series1.func=SUM&y.series1.expr=total&sort=series1&refine.datemensuel='+this.selectedAn)
+        .then((response) => {
+            this.autre=response.data.slice(0,50)
+        });
 
+        let self=this;
+  await  self.autre.forEach(pv => {
+        axios
+        .get("https://data.sncf.com/api/records/1.0/search/?dataset=frequentation-gares&q="+pv.x+"&sort=total_voyageurs_2019&facet=nom_gare&facet=code_postal")
+        .then((response) => {
+        if(this.selectedAn==2019){
+          setTimeout(()=>{ 
+                              this.ListesGares.push({"total_voyageur":response.data.records[0].fields.total_voyageurs_2019,"gare":response.data.records[0].fields.nom_gare,"accompagnement":pv.series1});
 
+                this.show = false
+        }, 2000)
+
+        }else if(this.selectedAn==2018){
+          setTimeout(()=>{ 
+                             this.ListesGares.push({"total_voyageur":response.data.records[0].fields.total_voyageurs_2018,"gare":response.data.records[0].fields.nom_gare,"accompagnement":pv.series1});
+                this.show = false
+        }, 1000)
+
+        }
+        else if(this.selectedAn==2017){
+          setTimeout(()=>{ 
+                               this.ListesGares.push({"total_voyageur":response.data.records[0].fields.totalvoyageurs2017,"gare":response.data.records[0].fields.nom_gare,"accompagnement":pv.series1});
+
+                this.show = false
+        }, 1000)
+
+        }
+         
+            
+        });
+
+    });
+  
+        
+          
 
       },
-     async  filtreDateMonth(){
-        if (this.selected === '' && this.selectedM === '') {
-                this.error = 'Please enter a word.'
-                  this.wordData = ''
-                  return false
-            }
-          this.dataAll=this.selected+'-'+this.selectedM
-         // console.log(dataAll);
-         this.$store.dispatch('ListeMonth',this.dataAll)
-
-
-
-      },
+     
       onChangePage(pageOfItems) {
             // update page of items
             this.pageOfItems = pageOfItems;
@@ -345,7 +316,9 @@ export default {
     bottom: 100%;
   }
 }
-
+.btnVal{
+  width: 100%;
+}
 
 
 </style>

@@ -9,62 +9,68 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    listGar: [],
-    titre:"",
+    listGar: null,
+    ListesGare: null,
+    titre:null,
   },
   mutations: {
-    setListe(state, listGar) {
-      state.listGar = listGar;
+    setListe(state,listGar) {
+      state.listGar=listGar ;
       
     },
     setTitre(state,titre) {
-      state.titre = titre;
+      state.titre=titre;
       
     },
+    setListes(state,ListesGare) {
+      state.ListesGare = ListesGare;      
+    },
+  
   
   },
   actions: {
-     Liste({ commit }) {
-      axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q=&rows=50&sort=total&facet=datemensuel&facet=gare&refine.datemensuel=2020')
+    async  Liste({ commit }) {
+      await axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q=&rows=50&sort=total&facet=datemensuel&facet=gare&refine.datemensuel=2020')
       .then(response => {
 
       commit('setListe', response.data.records)
+      commit('setListes', null)
       commit('setTitre', "Le Top 50 des gars qui ont réalisé le plus d'accompagnement en 2020")
-      console.log(response.data.records);
       })
       },
 
-      ListeAnne({ commit },params) {
-        axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q=&rows=20&sort=total&facet=datemensuel&facet=gare&refine.datemensuel='+params)
+      async  ListeAnne({ commit },params) {
+        await  axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q=&rows=50&sort=total&facet=datemensuel&facet=gare&refine.datemensuel='+params)
         .then(response => {
-          commit('setListe', response.data.records)
-          commit('setTitre', "Le Top 20 des gars qui ont réalisé le plus d'accompagnement au cours de l'année "+params)
-          console.log(response.data.records);
+          setTimeout(()=>{     
+            commit('setListe', response.data.records)
+            commit('setTitre', "Le Top 50 des gars qui ont réalisé le plus d'accompagnement au cours de l'année "+params)
+          }, 1000)
+     
           })
       },
-      ListeMonth({ commit },params) {
-        console.log(params);
-        axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q='+params+'&sort=total&rows=20')
+      async  ListeMonth({ commit },params) {
+        await axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q='+params+'&sort=total&rows=50')
         .then(response => {
           commit('setListe', response.data.records)
-          commit('setTitre', "Le Top 20 des gars qui ont réalisé le plus d'accompagnement par rapport a un perdiode défine de ")
-          console.log(response.data.records);
+          commit('setTitre', "Le Top 50 des gars qui ont réalisé le plus d'accompagnement par rapport a un perdiode défine de ")
           })
       },
-      Listesearch({ commit },params) {
-        console.log(params);
-        axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q='+params+'&sort=total&rows=20')
+      async Listesearch({ commit },params) {
+        await axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q='+params+'&sort=total&rows=50')
         .then(response => {
           commit('setListe', response.data.records)
-          commit('setTitre', "L'evol")
-          console.log(response.data.records);
+          commit('setListes', null)
+          commit('setTitre', "Le Top 50 du nombre d'aides fournies par la gare de "+params)
           })
       }
 
   },
   getters:{
-    getListe:(state)=>{ 
-      return state.listGar,state.titre
-     }
+    
+     listGar: state => state.listGar,
+     titre: state => state.titre,
+     ListesGare: state => state.ListesGare,
+     
   }
 });

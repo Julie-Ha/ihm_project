@@ -6,9 +6,8 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './custom.scss'
-import JwPagination from 'jw-vue-pagination';
-
-
+import JwPagination from 'jw-vue-pagination'
+import router from './router'
 
 
 
@@ -26,5 +25,6 @@ Vue.component('jw-pagination', JwPagination);
 
 new Vue({
   render: h => h(App),
-  store
+  store,
+  router,
 }).$mount('#app')
