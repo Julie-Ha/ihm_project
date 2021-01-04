@@ -4,6 +4,7 @@ import Home from '../components/Home.vue'
 import Table from '../components/Table.vue'
 import Map from '../components/Map.vue'
 import Graph from '../components/Graph.vue'
+import TableFiltre from '../components/TableFiltre.vue'
 
 Vue.use(VueRouter)
 
@@ -28,9 +29,15 @@ const routes = [
     name: 'Graph',
     component: Graph
   },
+ {
+    path: '/TableFiltre',
+    name: 'TableFiltre',
+    component: TableFiltre
+  },
 ]
 
 const router = new VueRouter({
+   mode:"history",
   routes
 })
 
