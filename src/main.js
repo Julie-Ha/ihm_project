@@ -10,11 +10,6 @@ import VueApexCharts from "vue-apexcharts";
 import JwPagination from 'jw-vue-pagination'
 import router from './router'
 
-
-
-
-
-
 Vue.use(VueApexCharts);
 Vue.component("apexchart", VueApexCharts);
 Vue.config.productionTip = false

@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../components/Home.vue'
 import Table from '../components/Table.vue'
 import Map from '../components/Map.vue'
 import Graph from '../components/Graph.vue'
 import TableFiltre from '../components/TableFiltre.vue'
+import About from '../components/About.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Table',
+    component: Table
   },
   {
     path: '/table',
@@ -33,6 +33,11 @@ const routes = [
     path: '/TableFiltre',
     name: 'TableFiltre',
     component: TableFiltre
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About
   },
 ]
 

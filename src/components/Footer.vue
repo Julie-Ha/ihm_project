@@ -1,12 +1,13 @@
 <template>
-  <div class="home">
-    Hello
+  <div id="footer">
+      Copyright © 2021
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'Home',
-}
+  name: "Footer",
+ 
+};
 </script>
