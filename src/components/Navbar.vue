@@ -1,13 +1,20 @@
 <template>
-  <div id="app">
-      <div id="nav" class="d-inline-flex p-2 bd-highlight">
-      <router-link to="/table" class="p-2">Tableau</router-link>
-      <router-link to="/map" class="p-2">Carte</router-link>
-      <router-link to="/graph" class="p-2">Graphes</router-link>
-      <router-link to="/about" class="p-2">A propos</router-link>
-    </div>
-    <router-view/>
-  </div>
+   <div id="app">
+      <b-navbar toggleable="lg" type="dark" style="background-color: #009879;" class="fix-top">
+         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+         <b-collapse id="nav-collapse" is-nav>
+            <div class="menu">
+               <b-navbar-nav>
+                  <b-nav-item to="/table" class="active">Tableau <span class="sr-only">(current)</span> </b-nav-item>
+                  <b-nav-item to="/map" >Carte</b-nav-item>
+                  <b-nav-item to="/graph" >Graphes</b-nav-item>
+                  <b-nav-item to="/about" >A propos</b-nav-item>
+               </b-navbar-nav>
+            </div>
+         </b-collapse>
+      </b-navbar>
+      <router-view/>
+   </div>
 </template>
 
 <script>
@@ -19,21 +26,19 @@ export default {
 };
 </script>
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+ .fix-top{
+        margin-top: -63px; 
     }
-  }
+.menu {
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    color: #fff;
+    font-size: 1.6rem;
+    
+
 }
 </style>

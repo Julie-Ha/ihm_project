@@ -1,30 +1,43 @@
 <template>
-  <div>
-    <h1 class="text-muted">
-      Nombre total d'aides aux personnes à mobilité réduite dans les gares
-    </h1>
-    <div>
-      <select name="year" @change="loadMap" v-model="selectedYear">
-        <option v-for="year in years" :key="year.name">{{ year.name }}</option>
-      </select>
-      <select name="month" @change="loadMap" v-model="selectedMonth">
-        <option v-for="month in months" :key="month">{{ month }}</option>
-      </select>
-    </div>
-    <div>
-      <span v-if="loading">Loading...</span>
-      <br />
-    </div>
-    <l-map :zoom="zoom" :center="center" style="height: 500px; width: 100%">
-      <l-tile-layer :url="url" :attribution="attribution" />
-      <l-geo-json
-        v-if="show"
-        :geojson="geojson"
-        :options="options"
-        :options-style="styleFunction"
-      />
-    </l-map>
-  </div>
+   <div>
+      <b-container class="bv-example-row" style="padding:10px">
+         <h1 class="text-muted">
+            Nombre total d'aides aux personnes à mobilité réduite dans les gares
+         </h1>
+         <div>
+            <div class="form-row">
+               <div class="col-md-6">
+                  <div class="form-group">
+                     <select name="year" @change="loadMap" v-model="selectedYear" class="selectpicker form-control">
+                        <option v-for="year in years" :key="year.name">{{ year.name }}</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="col-md-6 ">
+                  <div class="form-group">
+                     <select v-model="selected" class="selectpicker form-control" >
+                        <option disabled value="">Mois</option>
+                        <option v-for="month in months" :key="month">{{ month }}</option>
+                     </select>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div>
+            <span v-if="loading">Loading...</span>
+            <br />
+         </div>
+         <l-map :zoom="zoom" :center="center" style="height: 500px; width: 100%">
+            <l-tile-layer :url="url" :attribution="attribution" />
+            <l-geo-json
+               v-if="show"
+               :geojson="geojson"
+               :options="options"
+               :options-style="styleFunction"
+               />
+         </l-map>
+      </b-container>
+   </div>
 </template>
 
 <script>

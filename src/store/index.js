@@ -42,10 +42,8 @@ export const store = new Vuex.Store({
       async  ListeAnne({ commit },params) {
         await  axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q=&rows=50&sort=total&facet=datemensuel&facet=gare&refine.datemensuel='+params)
         .then(response => {
-          setTimeout(()=>{     
             commit('setListe', response.data.records)
             commit('setTitre', "Le Top 50 des gars qui ont réalisé le plus d'accompagnement au cours de l'année "+params)
-          }, 1000)
      
           })
       },

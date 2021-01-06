@@ -15,7 +15,7 @@
             </b-col>
             <b-col cols="5">
                <b-form-group >
-                  <b-button type="submit" variant="primary" @click="searchStation()" class="btnVal">rechercher</b-button>
+                  <b-button type="submit" style="background-color: #009879;" @click="searchStation()" class="btnVal">rechercher</b-button>
                </b-form-group>
             </b-col>
          </b-row>
