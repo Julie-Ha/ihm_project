@@ -2,7 +2,7 @@
    <div>
       <b-container class="bv-example-row" style="padding:20px">
          <h2 style="font-size: 2.1em;">
-            Les gares apportant le plus d'aides aux personnes à mobilité réduite
+            Les villes apportant le plus d'aides aux personnes à mobilité réduite dans les gares
          </h2>
          <b-container class="bv-example-row" style="padding:10px">
             <div class="form-row">
