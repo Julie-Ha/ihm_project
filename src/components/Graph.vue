@@ -24,18 +24,18 @@
             opacity="1"
             >
             <b-container class="bv-example-row" style="padding:10px">
-               <h2 style="font-size: 2.1em;">Pourcentage du nombre de personnes à mobilité réduite par rapport au nombre total de voyages en 2019 </h2>
-               <p>exposition des 20 meilleurs gars qui ont le plus aidé les personnes à mobilité réduite sur l'année 2019 </p>
+               <h2 style="font-size: 2.1em;">Pourcentage de personnes à mobilité réduite par rapport au total de voyages en 2019 </h2>
+               <p>Les 20 gares qui ont le plus aidé les personnes à mobilité réduite sur l'année 2019 </p>
                <apexchart v-if="loaded" width="100%" height="500px"  type="line" 
                   :options="pvOptions" :series="pvSeries"></apexchart>
             </b-container>
             <b-container class="bv-example-row" style="padding:10px">
-               <h2 style="font-size: 2.1em;" >nombre total Assistance fournie par les gars de 2015 à 2020</h2>
+               <h2 style="font-size: 2.1em;" >Nombre total d'aides fournies par les gares de 2015 à 2020</h2>
                <apexchart v-if="loaded" width="100%" type="pie" 
                   :options="catOptions" :series="catSeries"></apexchart>
             </b-container>
             <div style="padding:10px" >
-               <h2 style="font-size: 2.1em;" >Affichage du Top 50 de l'aide moyenne fournie par les stations de 2015 à 2020  </h2>
+               <h2 style="font-size: 2.1em;" >Top 50 de l'aide moyenne fournie par les stations de 2015 à 2020  </h2>
                <apexchart v-if="loaded" width="100%" height="500"  type="line" 
                   :options="pvOptions1" :series="pvSeries1" ></apexchart>
             </div>

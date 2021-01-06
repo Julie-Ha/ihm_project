@@ -5,7 +5,7 @@
          <b-collapse id="nav-collapse" is-nav>
             <div class="menu">
                <b-navbar-nav>
-                  <b-nav-item to="/table" class="active">Tableau <span class="sr-only">(current)</span> </b-nav-item>
+                  <b-nav-item to="/table">Tableau</b-nav-item>
                   <b-nav-item to="/map" >Carte</b-nav-item>
                   <b-nav-item to="/graph" >Graphes</b-nav-item>
                   <b-nav-item to="/about" >A propos</b-nav-item>

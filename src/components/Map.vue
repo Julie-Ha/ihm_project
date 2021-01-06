@@ -1,10 +1,10 @@
 <template>
    <div>
-      <b-container class="bv-example-row" style="padding:10px">
-         <h1 class="text-muted">
-            Nombre total d'aides aux personnes à mobilité réduite dans les gares
-         </h1>
-         <div>
+      <b-container class="bv-example-row" style="padding:20px">
+         <h2 style="font-size: 2.1em;">
+            Les gares apportant le plus d'aides aux personnes à mobilité réduite
+         </h2>
+         <b-container class="bv-example-row" style="padding:10px">
             <div class="form-row">
                <div class="col-md-6">
                   <div class="form-group">
@@ -15,14 +15,14 @@
                </div>
                <div class="col-md-6 ">
                   <div class="form-group">
-                     <select v-model="selected" class="selectpicker form-control" >
+                     <select name="month" @change="loadMap" v-model="selectedMonth" class="selectpicker form-control" >
                         <option disabled value="">Mois</option>
                         <option v-for="month in months" :key="month">{{ month }}</option>
                      </select>
                   </div>
                </div>
             </div>
-         </div>
+         </b-container>
          <div>
             <span v-if="loading">Loading...</span>
             <br />
@@ -124,8 +124,6 @@ export default {
           json.push(j.features[0]);
         }
       });
-      // console.log(json);
-
       this.geojson = json;
       this.loading = false;
     },
@@ -137,7 +135,7 @@ export default {
       };
     },
     styleFunction() {
-      const fillColor = this.fillColor; // important! need touch fillColor in computed for re-calculate when change fillColor
+      const fillColor = this.fillColor;
       return () => {
         return {
           weight: 2,

@@ -6,7 +6,7 @@
                <b-form-group id="input-group-2" >
                   <select v-model="selectedAn" class="selectpicker form-control" >
                      <option disabled value="">Année</option>
-                     <option v-for="annne in years" :key="annne">{{ annne }}</option>
+                     <option v-for="year in years" :key="year">{{ year }}</option>
                   </select>
                </b-form-group>
             </b-col>
@@ -36,7 +36,8 @@
             style="min-height: 100vh;"
             >
             <b-container>
-               <h3 class="text-center" style="font-size:20px">Les 50 stations qui ont fourni le plus d'assistance suivie du nombre de passagers qu'elles ont accueillis au cours de l'année {{title}}</h3>
+               <h3 class="text-center" style="font-size:20px">Accompagnement de personnes à mobilité réduite dans les gares {{title}}</h3>
+               <b-container class="bv-example-row" style="padding:10px">
                <b-table
                   :items="pageOfItems"
                   :fields="fields"
@@ -50,6 +51,7 @@
                <div  class="pagination">
                   <jw-pagination :items="ListesGares"  @changePage="onChangePage" ></jw-pagination>
                </div>
+               </b-container>
             </b-container>
          </b-overlay>
       </div>
@@ -75,7 +77,7 @@ export default {
   name: 'Table',
   data(){
         return {
-           selectedAn:'',
+           selectedAn:'2019',
            show: false,
            ListesGares: [],
            loaded: false,
