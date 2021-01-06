@@ -2,6 +2,7 @@
    <div class="TableFiltre">
  
       <b-container class="bv-example-row" style="padding:10px">
+      <b-row style="padding:10px"><b-col ><h2>Le Top 50 des gars qui ont fait le plus d'accompagnement pendant une période que vous sélectionnez</h2></b-col > </b-row >
          <b-row style="padding:10px">
             <b-col >
                <b-form-group id="input-group-2" >
@@ -13,44 +14,19 @@
                      ></b-form-input>
                </b-form-group>
             </b-col>
-            <b-col cols="5">
+            <b-col >
+            <select v-model="selecteAnne" class="selectpicker form-control" >
+                                       <option disabled value="">Année</option>
+                                       <option v-for="annne in years" :key="annne">{{ annne }}</option>
+               </select></b-col >
+            <b-col >
                <b-form-group >
-                  <b-button type="submit" variant="primary" @click="searchStation()" class="btnVal">rechercher</b-button>
+                  <b-button type="submit" style="background-color: #009879;" @click="searchStation()" class="btnVal">rechercher</b-button>
                </b-form-group>
             </b-col>
          </b-row>
          <b-row style="padding:10px">
-            <b-col>
-               <b-list-group-item class="d-flex justify-content-between align-items-center">
-                  Afficher les meilleures stations d'une année
-                  <b-icon icon="plus-circle-fill" scale="2" variant="info" v-on:click="seen1 = !seen1" class="control"></b-icon>
-               </b-list-group-item>
-               <div v-if="seen1" id="hide">
-                  <b-container>
-                     <div class="login-box">
-                        <form style="padding:20px">
-                           <div class="form-row">
-                              <div class="form-group col-md-6">
-                                 <select  v-model="selectedAn" class="selectpicker form-control" >
-                                    <option disabled value=""  >Année</option>
-                                    <option v-for="annne in years" :key="annne">{{ annne }}</option>
-                                 </select>
-                              </div>
-                              <div class="form-group col-md-6">
-                                 <a @click="filtreDate()">
-                                 <span></span>
-                                 <span></span>
-                                 <span></span>
-                                 <span></span>
-                                 rechercher
-                                 </a>
-                              </div>
-                           </div>
-                        </form>
-                     </div>
-                  </b-container>
-               </div>
-            </b-col>
+           
             <b-col>
                <b-list-group-item class="d-flex justify-content-between align-items-center">
                   Filtrer en sélectionnant le  mois et l'année
@@ -105,8 +81,14 @@
             </b-col>
          </b-row>
       </b-container>
-      
-      <div v-if="listGar" >
+      <b-overlay :show="show"  spinner-variant="success"
+            spinner-type="grow"
+            spinner-small
+            rounded="lg"
+            opacity="1"
+            style="min-height: 100vh;"
+            >
+      <div  v-if="listGar">
         <b-overlay :show="show"  spinner-variant="success"
       spinner-type="grow"
       spinner-small
@@ -146,51 +128,8 @@
          </b-container>
       </b-overlay>
       </div>
+       </b-overlay>
 
-      <div v-else-if="ListesGare">
-       <b-overlay :show="show"  spinner-variant="success"
-      spinner-type="grow"
-      spinner-small
-      rounded="lg"
-      >
-         <b-container>
-            <div class="row">
-               <b-container>
-                  <h3 class="text-center">{{titre}}</h3>
-               </b-container>
-               <div class="col-12 ">
-                  <div class="table-responsive">
-                     <table class="content-table table tablesorter">
-                        <thead>
-                           <tr class="text-center" >
-                              <th>N°</th>
-                              <th>Nom Gare</th>
-                              <th>Assistance totale fournie</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr v-for=" (gars,index) in pageOfItems " :key="index" class="active-row text-center" >
-                              <td >{{ index +1 }}</td>
-                              <td >{{ gars.x }}</td>
-                              <td >{{ gars.series1 }}</td>
-                              <td ></td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <div  class="pagination">
-                        <jw-pagination :items="ListesGare"  @changePage="onChangePage" ></jw-pagination>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </b-container>
-      </b-overlay> 
-      </div>
-      <div v-else>
-         <b-container>
-            <h3 class="text-center">No Data found.</h3>
-         </b-container>
-      </div>
    </div>
 </template>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
@@ -220,6 +159,7 @@ export default {
            years:["2020","2019","2018"],
            seen: false,
            seen1: false,
+           selecteAnne:false
 
         }
    
@@ -230,60 +170,60 @@ export default {
   },
   computed: mapState([
     'listGar',
-    'ListesGare',
     'titre'
   ]),
   
   methods: {
-    async  filtreDate(){
-      
-        if (this.selectedAn === '') {
-                this.error = 'Veuillez remplir tous les champs.'
-                  this.selectedAn = ''
-                  return false
-            }
+  
+     async  filtreDateMonth(){
+        if(this.selectedM == ''){
+
             this.show=true;
-         this.$store.dispatch('ListeAnne',this.selectedAn);
-        
-          setTimeout(()=>{     
+          //  this.dataAll=this.selected+'-'+this.selectedM
+            
+            this.$store.dispatch('ListeAnne',this.selectedM);
+
+           setTimeout(()=>{     
                  this.show = false
         }, 1000)
-
-
-
-      },
-     async  filtreDateMonth(){
-        if (this.selected === '' && this.selectedM === '') {
+        }else if (this.selected == '') {
                 this.error = 'Veuillez remplir tous les champs.'
                 this.selected = '',
                 this.selectedM =''
                   return false
-            }
-            this.show=true;
+         }else{
+             this.show=true;
             this.dataAll=this.selected+'-'+this.selectedM
             this.$store.dispatch('ListeMonth',this.dataAll)
 
            setTimeout(()=>{     
                  this.show = false
         }, 1000)
- 
+         }
       },
       async  searchStation(){
-        if ( this.NameGare === '') {
+         if(this.selecteAnne == ''){
+            this.show=true;
+               this.$store.dispatch('Listesearch',this.NameGare),
+        
+               setTimeout(()=>{     
+                        this.show = false
+               }, 1000)
+                       
+        }else if ( this.NameGare === '') {
                 this.error = 'Veuillez remplir tous les champs.'
                   this.NameGare=''
+                  this.selecteAnne=''
                   return false
-            }
-          this.show=true;
-          this.$store.dispatch('Listesearch',this.NameGare),
+         }else{
+               this.show=true;
+               let dattas=[this.selecteAnne,this.NameGare]
+               this.$store.dispatch('ListesearchAnne',dattas),
         
-        setTimeout(()=>{     
-                 this.show = false
-        }, 1000)
-        
-       
-
-
+               setTimeout(()=>{     
+                        this.show = false
+               }, 1000)
+                  }
       },
       onChangePage(pageOfItems) {
             // update page of items

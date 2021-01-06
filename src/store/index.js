@@ -22,9 +22,7 @@ export const store = new Vuex.Store({
       state.titre=titre;
       
     },
-    setListes(state,ListesGare) {
-      state.ListesGare = ListesGare;      
-    },
+   
   
   
   },
@@ -34,7 +32,6 @@ export const store = new Vuex.Store({
       .then(response => {
 
       commit('setListe', response.data.records)
-      commit('setListes', null)
       commit('setTitre', "Le Top 50 des gars qui ont réalisé le plus d'accompagnement en 2020")
       })
       },
@@ -42,10 +39,8 @@ export const store = new Vuex.Store({
       async  ListeAnne({ commit },params) {
         await  axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q=&rows=50&sort=total&facet=datemensuel&facet=gare&refine.datemensuel='+params)
         .then(response => {
-          setTimeout(()=>{     
             commit('setListe', response.data.records)
             commit('setTitre', "Le Top 50 des gars qui ont réalisé le plus d'accompagnement au cours de l'année "+params)
-          }, 1000)
      
           })
       },
@@ -60,7 +55,13 @@ export const store = new Vuex.Store({
         await axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q='+params+'&sort=total&rows=50')
         .then(response => {
           commit('setListe', response.data.records)
-          commit('setListes', null)
+          commit('setTitre', "Le Top 50 du nombre d'aides fournies par la gare de "+params)
+          })
+      },
+      async ListesearchAnne({ commit },params) {
+        await axios.get('https://data.sncf.com/api/records/1.0/search/?dataset=accompagnement-pmr-gares&q='+params[1]+'&sort=total&rows=50&refine.datemensuel='+params[0])
+        .then(response => {
+          commit('setListe', response.data.records)
           commit('setTitre', "Le Top 50 du nombre d'aides fournies par la gare de "+params)
           })
       }
@@ -70,7 +71,6 @@ export const store = new Vuex.Store({
     
      listGar: state => state.listGar,
      titre: state => state.titre,
-     ListesGare: state => state.ListesGare,
      
   }
 });
