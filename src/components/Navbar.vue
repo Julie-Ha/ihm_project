@@ -11,12 +11,12 @@
         <div class="menu">
           <b-navbar-nav>
             <b-nav-item-dropdown text="Données" right>
-              <b-dropdown-item href="#"
+              <b-dropdown-item href="#" class="dropdown-mine"
                 ><b-nav-item to="/tablefiltre" class="dark"
                   >Nombre d'aides par gare par période</b-nav-item
                 ></b-dropdown-item
               >
-              <b-dropdown-item href="#"
+              <b-dropdown-item href="#" class="dropdown-mine"
                 ><b-nav-item to="/table" class="dark"
                   >Comparaison avec le total de voyageurs</b-nav-item
                 ></b-dropdown-item
@@ -53,11 +53,7 @@ export default {
   font-size: 1.6rem;
 }
 
-.dropdown-menu {
-  background-color: #009879 !important;
+.dark .nav-link {
+   color: #009879 !important;
 }
-
-// .navbar-dark .navbar-nav .nav-link {
-//   color: rgba(255, 255, 255, 0.8) !important;
-// }
 </style>
