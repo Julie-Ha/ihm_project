@@ -215,7 +215,6 @@ b-table thead tr {
   text-align: left;
   font-weight: bold;
 }
-
 b-table th,
 b-table td {
   padding: 12px 15px;
