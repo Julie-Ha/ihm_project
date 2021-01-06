@@ -10,9 +10,9 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Table",
-    component: Table,
+    path: '/',
+    name: 'TableFiltre',
+    component: TableFiltre
   },
   {
     path: "/table",

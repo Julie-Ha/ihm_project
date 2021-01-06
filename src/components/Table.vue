@@ -1,6 +1,8 @@
 <template>
    <div class="table">
       <b-container class="bv-example-row" style="padding:10px">
+      <b-row> <b-col>               <h3 class="text-center" style="font-size:20px">Affichage par gars du croisement  du nombre total de passages reçus par an et du nombre d'aides fournies aux personnes à mobilité réduite {{title}}</h3>
+</b-col> </b-row>
          <b-row style="padding:10px">
             <b-col >
                <b-form-group id="input-group-2" >
@@ -16,16 +18,7 @@
                </b-form-group>
             </b-col>
          </b-row>
-         <b-row style="padding:10px">
-            <b-col >
-               <b-list-group-item class="d-flex justify-content-between align-items-center">
-                  Avoir plus de Filtre 
-                  <router-link to="/TableFiltre" class="p-2">
-                     <b-icon icon="plus-circle-fill" scale="2" variant="info" class="control"></b-icon>
-                  </router-link>
-               </b-list-group-item>
-            </b-col>
-         </b-row>
+         
       </b-container>
       <div v-if="ListesGares" >
          <b-overlay :show="show"  spinner-variant="success"
@@ -36,7 +29,6 @@
             style="min-height: 100vh;"
             >
             <b-container>
-               <h3 class="text-center" style="font-size:20px">Accompagnement de personnes à mobilité réduite dans les gares {{title}}</h3>
                <b-container class="bv-example-row" style="padding:10px">
                <b-table
                   :items="pageOfItems"
@@ -96,6 +88,7 @@ export default {
    
   },
   mounted () {
+     this.filtreDatas();
     },
    
   methods: {
@@ -148,6 +141,45 @@ export default {
     
 
       },
+      async  filtreDatas(){
+        let tav=[];
+
+        this.listGare=[];
+        this.titre=null;
+        
+        if (this.selectedAn === '') {
+                this.error = 'Veuillez remplir tous les champs.'
+                  this.selectedAn = ''
+                  return false
+          }
+          this.title=this.selectedAn
+            this.show=true;
+            this.autre=null;
+         await axios
+        .get('https://data.sncf.com/api/records/1.0/analyze/?dataset=accompagnement-pmr-gares&rows=10&x=gare&y.series1.func=SUM&y.series1.expr=total&sort=series1&refine.datemensuel=2019')
+        .then((response) => {
+            this.autre=response.data.slice(0,50)
+        });
+
+        let self=this;
+        this.ListesGares=[];
+  await  self.autre.forEach(pv => {
+        axios
+        .get("https://data.sncf.com/api/records/1.0/search/?dataset=frequentation-gares&q="+pv.x+"&sort=total_voyageurs_2019&facet=nom_gare&facet=code_postal")
+        .then((response) => {
+                 this.ListesGares.push({"total_voyageur":response.data.records[0].fields.total_voyageurs_2019,"gare":response.data.records[0].fields.nom_gare,"accompagnement":pv.series1});
+                 setTimeout(()=>{ 
+                this.loaded=true
+                this.show = false
+        }, 1000)
+            
+        });
+
+    });
+  
+    
+
+      },
       
      
       onChangePage(pageOfItems) {
@@ -183,7 +215,6 @@ b-table thead tr {
   text-align: left;
   font-weight: bold;
 }
-
 b-table th,
 b-table td {
   padding: 12px 15px;
