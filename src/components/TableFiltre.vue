@@ -2,23 +2,23 @@
    <div class="TableFiltre">
  
       <b-container class="bv-example-row" style="padding:10px">
-      <b-row style="padding:10px"><b-col ><h2>Le Top 50 des gars qui ont fait le plus d'accompagnement pendant une période que vous sélectionnez</h2></b-col > </b-row >
+      <b-row style="padding:10px"><b-col ><h2>Top 50 des gares qui ont fait le plus d'accompagnement aux personnes à mobilité réduite</h2></b-col > </b-row >
          <b-row style="padding:10px">
             <b-col >
                <b-form-group id="input-group-2" >
                   <b-form-input
                      id="input-2"
                      v-model="NameGare"
-                     placeholder="Entrez le nom d'une Gare"
+                     placeholder="Entrez le nom d'une gare"
                      required
                      ></b-form-input>
                </b-form-group>
             </b-col>
-            <b-col >
+            <!-- <b-col >
             <select v-model="selecteAnne" class="selectpicker form-control" >
                                        <option disabled value="">Année</option>
                                        <option v-for="annne in years" :key="annne">{{ annne }}</option>
-               </select></b-col >
+               </select></b-col > -->
             <b-col >
                <b-form-group >
                   <b-button type="submit" style="background-color: #009879;" @click="searchStation()" class="btnVal">rechercher</b-button>
@@ -64,7 +64,8 @@
                                     </select>
                                  </div>
                               </div>
-                              <div class="form-group col-md-6">
+                              <div class="d-flex justify-content-center w-100 align-items-center">
+                                 <div class="col-6"> 
                                  <a @click="filtreDateMonth()">
                                  <span></span>
                                  <span></span>
@@ -72,6 +73,7 @@
                                  <span></span>
                                  rechercher
                                  </a>
+                                 </div> 
                               </div>
                            </div>
                         </form>
@@ -96,9 +98,9 @@
       >
          <b-container>
             <div class="row">
-               <b-container>
+               <!-- <b-container>
                   <h3 class="text-center">{{titre}}</h3>
-               </b-container>
+               </b-container> -->
                <div class="col-12 ">
                   <div class="table-responsive">
                      <table class="content-table table tablesorter">
@@ -145,8 +147,8 @@ export default {
   name: 'TableFiltre',
   data(){
         return {
-           selected: '',
-           selectedM:'',
+           selected: '2020',
+           selectedM:'01',
            selectedAn:'',
            selectAn:'',
            NameGare:'',
