@@ -1,7 +1,7 @@
 <template>
    <div class="table">
       <b-container class="bv-example-row" style="padding:10px">
-      <b-row> <b-col>               <h3 class="text-center" style="font-size:20px">Affichage par gars du croisement  du nombre total de passages reçus par an et du nombre d'aides fournies aux personnes à mobilité réduite {{title}}</h3>
+      <b-row> <b-col>               <h2 class="text-center">Affichage par gare du total de voyageurs reçus par an et du nombre d'aides fournies aux personnes à mobilité réduite {{title}}</h2>
 </b-col> </b-row>
          <b-row style="padding:10px">
             <b-col >

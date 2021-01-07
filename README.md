@@ -43,3 +43,8 @@ Dans cette partie sont proposés 2 types de tableaux, le premier permettant de v
 Cette partie permet de visualiser les villes qui apportent le plus d'aide aux personnes à mobilités réduites. En effet, la carte a été réalisée avec la bibliothèques Leaflet et l'API Adresse de https://geo.api.gouv.fr/adresse a été utilisée pour récupérer les données geojson des gares. Le nombre d'aides des gares d'une même ville ont été fusionnés pour ne pas surcharger la carte d'information. En effet, nous avons choisi d'afficher le nom des villes plutôt que des gares pour que la carte reste lisible.
 
 ### Partie Graphes
+Pour la partie graphique, nous avons utilisé "VueApexCharts" pour l'affichage,
+1- le premier graphique est une représentation du nombre moyen d'aides fournies par les stations par mois tout au long de l'année. Cela nous a permis d'analyser à quel moment de l'année le nombre d'aides est élevé ou faible. Cela a été jugé possible grâce à la méthode Avg que l'api nous a suggéré d'utiliser pour l'analyse.
+
+2- Pour le deuxième graphique, nous avons voulu faire un pourcentage du nombre de personnes à mobilité réduite par rapport au nombre total de passages. Pour obtenir le nombre total de passages de chaque personne par an, nous avons utilisé l'ensemble de données #frequentation et avons ensuite fait une règle de trois entre le nombre de passages et le nombre d'assistance fournie.
+Données : https://data.sncf.com/explore/dataset/frequence-gare/table/?sort=-annee
